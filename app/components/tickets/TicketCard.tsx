@@ -97,10 +97,10 @@ export const TicketCard: React.FC<TicketCardProps> = ({
       <CardHeader className={cn('pb-2', compact && 'pb-1')}>
         <div className="flex items-start justify-between gap-3">
           {/* Left: Title and Meta */}
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 pr-2">
             <div className="flex items-center gap-2 mb-1">
               <h3 className={cn(
-                'font-medium truncate',
+                'font-medium line-clamp-1',
                 compact ? 'text-sm' : 'text-base'
               )}>
                 {ticket.title}
@@ -109,7 +109,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0"
+                  className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0 flex-shrink-0"
                   onClick={handleEdit}
                 >
                   <Edit className="h-3 w-3" />
@@ -118,17 +118,17 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             </div>
 
             {/* Meta Information */}
-            <div className="flex items-center gap-3 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1">
+            <div className="flex items-center gap-3 text-xs text-muted-foreground overflow-hidden">
+              <span className="flex items-center gap-1 flex-shrink-0">
                 <User className="h-3 w-3" />
-                {ticket.userName}
+                <span className="truncate">{ticket.userName}</span>
               </span>
-              <span className="flex items-center gap-1">
+              <span className="flex items-center gap-1 flex-shrink-0">
                 <Clock className="h-3 w-3" />
                 {formatRelativeTime(ticket.createdAt)}
               </span>
               {ticket.conversationId && (
-                <span className="flex items-center gap-1">
+                <span className="flex items-center gap-1 flex-shrink-0">
                   <MessageSquare className="h-3 w-3" />
                   Chat
                 </span>
@@ -137,10 +137,10 @@ export const TicketCard: React.FC<TicketCardProps> = ({
           </div>
 
           {/* Right: Status & Priority */}
-          <div className="flex flex-col items-end gap-1">
+          <div className="flex flex-col items-end gap-1 flex-shrink-0">
             <Badge 
               variant="outline" 
-              className={cn('gap-1 text-xs', getTicketStatusColor(ticket.status))}
+              className={cn('gap-1 text-xs whitespace-nowrap', getTicketStatusColor(ticket.status))}
             >
               {getStatusIcon(ticket.status)}
               {ticket.status.replace('_', ' ')}
@@ -150,7 +150,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
               <span className="text-xs">{getPriorityIcon(ticket.priority)}</span>
               <Badge 
                 variant="secondary" 
-                className={cn('text-xs', getPriorityColor(ticket.priority))}
+                className={cn('text-xs whitespace-nowrap', getPriorityColor(ticket.priority))}
               >
                 {ticket.priority}
               </Badge>
@@ -162,25 +162,25 @@ export const TicketCard: React.FC<TicketCardProps> = ({
       {!compact && (
         <CardContent className="pt-0">
           {/* Description */}
-          <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
-            {truncateText(ticket.description, 120)}
+          <p className="text-sm text-muted-foreground mb-3 line-clamp-2 break-words">
+            {ticket.description}
           </p>
 
           {/* Tags and Category */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Badge variant="outline" className="text-xs">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2 flex-wrap min-w-0">
+              <Badge variant="outline" className="text-xs whitespace-nowrap">
                 {getCategoryDisplayName(ticket.category)}
               </Badge>
               
               {ticket.tags.slice(0, 2).map((tag, index) => (
-                <Badge key={index} variant="secondary" className="text-xs">
+                <Badge key={index} variant="secondary" className="text-xs whitespace-nowrap">
                   {tag}
                 </Badge>
               ))}
               
               {ticket.tags.length > 2 && (
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs text-muted-foreground whitespace-nowrap">
                   +{ticket.tags.length - 2} more
                 </span>
               )}
@@ -188,8 +188,8 @@ export const TicketCard: React.FC<TicketCardProps> = ({
 
             {/* Action Buttons */}
             {showActions && (
-              <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button variant="ghost" size="sm" className="h-7 px-2">
+              <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+                <Button variant="ghost" size="sm" className="h-7 px-2 whitespace-nowrap">
                   <Eye className="h-3 w-3 mr-1" />
                   View
                 </Button>
@@ -246,19 +246,19 @@ export const TicketListItem: React.FC<TicketCardProps> = ({
       {/* Content */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
-          <h4 className="font-medium text-sm truncate">{ticket.title}</h4>
+          <h4 className="font-medium text-sm line-clamp-1 flex-1">{ticket.title}</h4>
           <Badge 
             variant="outline" 
-            className={cn('text-xs', getTicketStatusColor(ticket.status))}
+            className={cn('text-xs whitespace-nowrap flex-shrink-0', getTicketStatusColor(ticket.status))}
           >
             {ticket.status.replace('_', ' ')}
           </Badge>
         </div>
         
-        <div className="flex items-center gap-3 text-xs text-muted-foreground">
-          <span>{ticket.userName}</span>
-          <span>{formatRelativeTime(ticket.createdAt)}</span>
-          <Badge variant="secondary" className="text-xs">
+        <div className="flex items-center gap-3 text-xs text-muted-foreground overflow-hidden">
+          <span className="truncate">{ticket.userName}</span>
+          <span className="whitespace-nowrap">{formatRelativeTime(ticket.createdAt)}</span>
+          <Badge variant="secondary" className="text-xs whitespace-nowrap">
             {getCategoryDisplayName(ticket.category)}
           </Badge>
         </div>
@@ -289,22 +289,22 @@ export const TicketGridItem: React.FC<TicketCardProps & { featured?: boolean }> 
     >
       <div className="space-y-3">
         {/* Header */}
-        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
-            <h4 className="font-medium text-sm truncate mb-1">{ticket.title}</h4>
-            <p className="text-xs text-muted-foreground">{ticket.userName}</p>
+            <h4 className="font-medium text-sm line-clamp-1 mb-1">{ticket.title}</h4>
+            <p className="text-xs text-muted-foreground truncate">{ticket.userName}</p>
           </div>
           <Badge 
             variant="outline" 
-            className={cn('text-xs', getTicketStatusColor(ticket.status))}
+            className={cn('text-xs whitespace-nowrap flex-shrink-0', getTicketStatusColor(ticket.status))}
           >
             {ticket.status.replace('_', ' ')}
           </Badge>
         </div>
 
         {/* Description */}
-        <p className="text-xs text-muted-foreground line-clamp-2">
-          {truncateText(ticket.description, 80)}
+        <p className="text-xs text-muted-foreground line-clamp-2 break-words">
+          {ticket.description}
         </p>
 
         {/* Footer */}

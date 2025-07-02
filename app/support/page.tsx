@@ -341,7 +341,7 @@ export default function SupportDashboard() {
         </header>
 
         {/* Main Content */}
-        <main className="container mx-auto px-4 py-6 space-y-6">
+        <main className="container mx-auto px-4 py-6 space-y-8">
           <LoadingOverlay isLoading={isLoading && filteredTickets.length === 0}>
             {/* Stats Overview */}
             {stats && (
@@ -559,34 +559,36 @@ export default function SupportDashboard() {
             )}
 
             {/* Tickets Grid/List */}
-            {viewMode === 'grid' ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredTickets.map((ticket) => (
-                  <TicketCard
-                    key={ticket.id}
-                    ticket={ticket}
-                    onView={handleTicketView}
-                    onEdit={handleTicketEdit}
-                    onStatusChange={handleStatusChange}
-                    onPriorityChange={handlePriorityChange}
-                    showActions={true}
-                    compact={false}
-                  />
-                ))}
-              </div>
-            ) : (
-              <Card>
-                <CardContent className="p-0">
+            <div className="mt-6">
+              {viewMode === 'grid' ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredTickets.map((ticket) => (
-                    <TicketListItem
+                    <TicketCard
                       key={ticket.id}
                       ticket={ticket}
                       onView={handleTicketView}
+                      onEdit={handleTicketEdit}
+                      onStatusChange={handleStatusChange}
+                      onPriorityChange={handlePriorityChange}
+                      showActions={true}
+                      compact={false}
                     />
                   ))}
-                </CardContent>
-              </Card>
-            )}
+                </div>
+              ) : (
+                <Card>
+                  <CardContent className="p-0">
+                    {filteredTickets.map((ticket) => (
+                      <TicketListItem
+                        key={ticket.id}
+                        ticket={ticket}
+                        onView={handleTicketView}
+                      />
+                    ))}
+                  </CardContent>
+                </Card>
+              )}
+            </div>
 
             {/* Empty State */}
             {!isLoading && filteredTickets.length === 0 && (
