@@ -433,8 +433,8 @@ This frontend application is designed to work seamlessly with the **support-back
 ---
 
 **Related Repositories:**
-- [Backend Repository](../support-backend) - Node.js API with Socket.IO
-- [Environment Setup Guide](./ENV_SETUP.md) - Complete setup instructions
+- [Backend Repository](https://github.com/heyimhere/support-backend) - Node.js API with Socket.IO
+- [Environment Setup Guide](https://github.com/heyimhere/support-backend/blob/main/ENV_SETUP.md) - Complete setup instructions
 
 **Need Help?**
 1. Ensure the backend is running on `http://localhost:3001`
